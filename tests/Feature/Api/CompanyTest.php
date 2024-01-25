@@ -86,7 +86,7 @@ class CompanyTest extends TestCase
     }
 
     /**
-     * Update Category
+     * Update Company
      */
     public function test_update_ccompany(): void
     {
@@ -115,14 +115,14 @@ class CompanyTest extends TestCase
     }
 
     /**
-     * Delete Category
+     * Delete Company
      */
     public function test_delete_company(): void
     {
-        // Cria uma categoria (que será deletada neste teste) através da factory
+        // Cria uma companhia (que será deletada neste teste) através da factory
         $company = Company::factory()->create();
 
-        // Deletar uma categoria que não existe
+        // Deletar uma companhia que não existe
         $response = $this->deleteJson("$this->endpoint/fake-company");
         $response->assertStatus(404);
 
