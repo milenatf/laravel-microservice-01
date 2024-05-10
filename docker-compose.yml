@@ -6,22 +6,22 @@ services:
       args:
         user: milena
         uid: 1000
-      context: ./
+      context: ./ # O contexto que serão aplicadas o que foi definido em args, ou seja, em todo o meu diretório atual
       dockerfile: Dockerfile
     image: laravel-app
     # restart: unless-stopped
     working_dir: /var/www/
     volumes:
-      - ./:/var/www
+      - ./:/var/www # Copia os arquivos do meu path local para o /var/www do container.
     networks:
       - microservices
 
   # nginx
-  nginx:
+  nginx-micro_01:
     image: nginx:alpine
     # restart: unless-stopped
     ports:
-      - 8000:80
+      - 8181:80
       - 443:443
     volumes:
       - ./:/var/www
@@ -32,7 +32,7 @@ services:
   # mysql micro 01
   db_micro_01:
     image: mysql:5.7.22
-    restart: unless-stopped
+    # restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -41,32 +41,32 @@ services:
     volumes:
       - ./.docker/mysql/dbdata:/var/lib/mysql
     ports:
-      - 3308:3306
+      - 3388:3306
     networks:
       - microservices
 
   # queue micro 01
-  queue:
-    build:
-      args:
-        user: milena
-        uid: 1000
-      context: ./
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    command: "php artisan queue:work"
-    volumes:
-      - ./:/var/www
-    depends_on:
-      - redis_micro_01
-    networks:
-      - microservices
+  # queue:
+  #   build:
+  #     args:
+  #       user: milena
+  #       uid: 1000
+  #     context: ./
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   command: "php artisan queue:work"
+  #   volumes:
+  #     - ./:/var/www
+  #   depends_on:
+  #     - redis_micro_01
+  #   networks:
+  #     - microservices
 
   #redis
-  redis_micro_01:
-    image: redis:latest
-    networks:
-      - microservices
+  # redis_micro_01:
+  #   image: redis:latest
+  #   networks:
+  #     - microservices
 
 networks:
   microservices:

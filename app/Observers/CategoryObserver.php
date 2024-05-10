@@ -3,13 +3,12 @@
 namespace App\Observers;
 
 use Illuminate\Support\Str;
-
 use App\Models\Category;
 
 class CategoryObserver
 {
     /**
-     * Handle the Category "created" event.
+     * Handle the Category "creating" event.
      * Antes de cadastrar
      */
     public function creating(Category $category): void

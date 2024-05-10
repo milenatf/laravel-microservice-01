@@ -44,7 +44,13 @@ class CompanyController extends Controller
      */
     public function show(string $uuid)
     {
-        $company = $this->repository->where('uuid', $uuid)->firstOrFail();
+        $company = $this->repository->where('uuid', $uuid)->first();
+
+        if(!$company) {
+            return response()->json('Empresa não encontrada', 404);
+        }
+
+        // return new CompanyResource($company);
 
         // dd($this->evaluationService->getEvaluationCompany($uuid));
 
@@ -61,7 +67,11 @@ class CompanyController extends Controller
      */
     public function update(StoreUpdateCompany $request, string $uuid)
     {
-        $company = $this->repository->where('uuid', $uuid)->firstOrFail();
+        $company = $this->repository->where('uuid', $uuid)->first();
+
+        if(!$company) {
+            return response()->json('Empresa não encontrada', 404);
+        }
 
         $company->update($request->validated());
 
@@ -73,7 +83,12 @@ class CompanyController extends Controller
      */
     public function destroy(string $uuid)
     {
-        $company = $this->repository->where('uuid', $uuid)->firstOrFail();
+        $company = $this->repository->where('uuid', $uuid)->first();
+
+        if(!$company) {
+            return response()->json('Empresa não encontrada', 404);
+        }
+
         $company->delete();
 
         return response()->json([], 204);

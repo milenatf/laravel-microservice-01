@@ -41,7 +41,11 @@ class CategoryController extends Controller
      */
     public function show(string $url)
     {
-        $category = $this->repository->where('url', $url)->firstOrFail();
+        $category = $this->repository->where('url', $url)->first();
+
+        if(!$category) {
+            return response()->json('Categoria não encontrada', 404);
+        }
 
         return new CategoryResource($category);
     }
@@ -51,7 +55,11 @@ class CategoryController extends Controller
      */
     public function update(StoreUpdateCategory $request, string $url)
     {
-        $category = $this->repository->where('url', $url)->firstOrFail();
+        $category = $this->repository->where('url', $url)->first();
+
+        if(!$category) {
+            return response()->json('Categoria não encontrada', 404);
+        }
 
         $category->update($request->validated());
 
@@ -63,7 +71,11 @@ class CategoryController extends Controller
      */
     public function destroy(string $url)
     {
-        $category = $this->repository->where('url', $url)->firstOrFail();
+        $category = $this->repository->where('url', $url)->first();
+
+        if(!$category) {
+            return response()->json('Categoria não encontrada', 404);
+        }
 
         $category->delete();
 
